@@ -6,8 +6,7 @@ interface ImportMetaEnv {
   readonly VITE_SHOPIFY_ADMIN_ACCESS_TOKEN: string;
   readonly VITE_ADMIN_USERNAME: string;
   readonly VITE_ADMIN_PASSWORD: string;
-
-  readonly VITE_API_URL: string; // <-- aquí agregamos la URL de tu backend
+  readonly VITE_API_URL: string;
 }
 
 interface ImportMeta {
