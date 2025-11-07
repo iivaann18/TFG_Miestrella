@@ -1,0 +1,121 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* Colores corporativos */
+  --color-primary-dark: #2d2638;
+  --color-primary-brown: #875b3b;
+  --color-primary-light: #f4dcd5;
+  --color-primary-gold: #a88453;
+  --color-primary-rose: #b9858d;
+  --color-primary-beige: #ccb186;
+  --color-primary-pink: #d8a3ad;
+  --color-primary-teal: #92b9c0;
+
+  color-scheme: light;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  color: var(--color-primary-dark);
+  background-color: var(--color-primary-light);
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+}
+
+/* Estilos para texto largo - AÑADIDO */
+.word-break {
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+/* Clase para limitar líneas de texto */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Sombras personalizadas */
+.shadow-custom {
+  box-shadow: 0 10px 25px -5px rgba(45, 38, 56, 0.1), 0 10px 10px -5px rgba(45, 38, 56, 0.04);
+}
+
+/* Animaciones suaves */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Botones */
+button:focus {
+  outline: 2px solid var(--color-primary-brown);
+  outline-offset: 2px;
+}
+
+/* Formularios */
+input:focus, 
+textarea:focus, 
+select:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: var(--color-primary-brown);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-primary-light);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary-brown);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-primary-gold);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .word-break {
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+  }
+}
