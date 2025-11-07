@@ -1,13 +1,15 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-  readonly VITE_SHOPIFY_STORE_DOMAIN: string
-  readonly VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN: string
-  readonly VITE_SHOPIFY_ADMIN_ACCESS_TOKEN: string
-  readonly VITE_ADMIN_USERNAME: string
-  readonly VITE_ADMIN_PASSWORD: string
+  readonly VITE_SHOPIFY_STORE_DOMAIN: string;
+  readonly VITE_SHOPIFY_STOREFRONT_ACCESS_TOKEN: string;
+  readonly VITE_SHOPIFY_ADMIN_ACCESS_TOKEN: string;
+  readonly VITE_ADMIN_USERNAME: string;
+  readonly VITE_ADMIN_PASSWORD: string;
+
+  readonly VITE_API_URL: string; // <-- aquí agregamos la URL de tu backend
 }
 
 interface ImportMeta {
-  readonly env: ImportMetaEnv
+  readonly env: ImportMetaEnv;
 }
