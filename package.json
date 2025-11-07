@@ -7,7 +7,8 @@
     "dev": "npx vite",
     "dev:server": "npx tsx watch server/index.ts",
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
-    "build": "npx vite build",
+    "build": "node scripts/build.mjs",
+    "build:fallback": "npx vite build",
     "start": "npx tsx server/index.ts",
     "preview": "npx vite preview"
   },
