@@ -4,13 +4,12 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "dev:server": "tsx watch server/index.ts",
+    "dev": "npx vite",
+    "dev:server": "npx tsx watch server/index.ts",
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
-    "build": "vite build",
-    "start": "tsx server/index.ts",
-    "preview": "vite preview",
-    "render-build": "npm ci --include=dev && npm run build"
+    "build": "npx vite build",
+    "start": "npx tsx server/index.ts",
+    "preview": "npx vite preview"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^2.4.0",
