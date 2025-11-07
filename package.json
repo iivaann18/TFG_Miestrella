@@ -7,15 +7,14 @@
     "dev": "vite",
     "dev:server": "tsx watch server/index.ts",
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
-    "build": "tsc && vite build",
-    "build:server": "tsc server/index.ts --outDir dist-server --target es2020 --module commonjs",
+    "build": "tsc --noEmit && vite build",
+    "build:server": "cd server && npm install && npm run build",
     "start": "tsx server/index.ts",
     "start:dev": "npm run dev:all",
     "preview": "vite preview",
     "create-admin": "tsx server/scripts/createAdmin.ts",
     "setup-db": "tsx server/scripts/setupDatabase.ts",
-    "render-build": "npm install && npm run build",
-    "postinstall": "npm run build"
+    "render-build": "npm ci && npm run build"
   },
   "dependencies": {
     "@stripe/react-stripe-js": "^2.4.0",
