@@ -6,7 +6,7 @@ console.log('🔗 API URL:', API_URL);
 
 // Crear instancia de axios con configuración por defecto
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://mi-estrella-magica.vercel.app/api',
+  baseURL: API_URL,
   withCredentials: true, // necesario para cookies
 });
 
