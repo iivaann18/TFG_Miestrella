@@ -29,6 +29,7 @@ interface EmailOptions {
   subject: string;
   html: string;
   from?: string;
+  attachments?: any[];
 }
 
 // Función para enviar emails
@@ -39,6 +40,7 @@ export const sendEmail = async (options: EmailOptions): Promise<void> => {
       to: options.to,
       subject: options.subject,
       html: options.html,
+      ...(options.attachments ? { attachments: options.attachments } : {}),
     };
 
     const info = await transporter.sendMail(mailOptions);
@@ -143,7 +145,8 @@ export const sendEmployeeCredentials = async (
 export const sendOrderConfirmation = async (
   to: string,
   orderNumber: string,
-  total: number
+  total: number,
+  attachments?: any[]
 ): Promise<void> => {
   const html = `
     <!DOCTYPE html>
@@ -181,6 +184,8 @@ export const sendOrderConfirmation = async (
     to,
     subject: `Confirmación de Pedido ${orderNumber}`,
     html,
+    // allow optional attachments
+    ...(attachments ? { attachments } : {}),
   });
 };
 

@@ -5,6 +5,7 @@ import {
   getOrderById,
   getAllOrders,
   updateOrderStatus,
+  generateInvoice,
 } from '../controllers/orders.controller';
 import { authenticateToken, requirePermission, optionalAuth } from '../middleware/auth';
 
@@ -18,6 +19,9 @@ router.get('/user', authenticateToken, getUserOrders);
 
 // Obtener todos los pedidos (solo admin/empleados con permiso)
 router.get('/', authenticateToken, requirePermission('can_view_orders'), getAllOrders);
+
+// Obtener factura PDF
+router.get('/:id/invoice', authenticateToken, generateInvoice);
 
 // Obtener pedido por ID
 router.get('/:id', authenticateToken, getOrderById);

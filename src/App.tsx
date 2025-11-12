@@ -10,6 +10,8 @@ import Store from './pages/Store';
 import ProductDetail from './pages/ProductDetail';
 import Cart from './pages/Cart';
 import Checkout from './pages/Checkout';
+import OrderConfirmation from './pages/OrderConfirmation';
+import OrderDetail from './pages/OrderDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Profile from './pages/Profile';
@@ -39,6 +41,15 @@ const AppContent: React.FC = () => {
           <Route path="/product/:handle" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/checkout" element={<Checkout />} /> {/* AÑADIDO */}
+          <Route path="/order-confirmation/:id" element={<OrderConfirmation />} />
+          <Route
+            path="/order/:id"
+            element={
+              <ProtectedRoute>
+                <OrderDetail />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/privacy" element={<Privacy />} />

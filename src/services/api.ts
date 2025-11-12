@@ -122,6 +122,8 @@ export const ordersAPI = {
   
   updateStatus: (id: number, data: any) =>
     apiClient.patch(`/orders/${id}/status`, data),
+  getInvoice: (id: number) =>
+    apiClient.get(`/orders/${id}/invoice`, { responseType: 'blob' }),
 };
 
 // Payments API - AÑADIDO

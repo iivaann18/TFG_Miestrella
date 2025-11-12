@@ -6,12 +6,16 @@ import { useAuth } from '../context/AuthContext';
 import { authAPI, ordersAPI } from '../services/api';
 import { Order } from '../types';
 import { Link } from 'react-router-dom';
+import OrderModal from '../components/modals/OrderModal';
+import { useCallback } from 'react';
 
 const Profile: React.FC = () => {
   const { user, updateUser } = useAuth();
   const [activeTab, setActiveTab] = useState<'info' | 'orders' | 'security'>('info');
   const [isEditing, setIsEditing] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [orderModalOpen, setOrderModalOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   // Form states - CORREGIDO EL TIPO
@@ -52,6 +56,20 @@ const Profile: React.FC = () => {
       setLoading(false);
     }
   };
+
+  const openOrderDetails = useCallback(async (id: number) => {
+    try {
+      setLoading(true);
+      const res = await ordersAPI.getById(id);
+      const fullOrder = res.data;
+      setSelectedOrder(fullOrder);
+      setOrderModalOpen(true);
+    } catch (err) {
+      console.error('Error cargando orden:', err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
 
   const handleUpdateProfile = async () => {
     try {
@@ -368,11 +386,11 @@ const Profile: React.FC = () => {
                               €{parseFloat(order.total.toString()).toFixed(2)}
                             </p>
                           </div>
-                          <Link to={`/order/${order.id}`}>
-                            <Button variant="outline" size="sm">
+                          <div>
+                            <Button onClick={() => openOrderDetails(order.id)} variant="outline" size="sm">
                               Ver Detalles
                             </Button>
-                          </Link>
+                          </div>
                         </div>
                       </motion.div>
                     ))}
@@ -451,6 +469,13 @@ const Profile: React.FC = () => {
             )}
           </div>
         </div>
+      {selectedOrder && (
+        <OrderModal
+          isOpen={orderModalOpen}
+          onClose={() => setOrderModalOpen(false)}
+          order={selectedOrder}
+        />
+      )}
       </div>
     </div>
   );

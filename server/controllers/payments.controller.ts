@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import pool from '../config/database';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import { sendOrderConfirmation } from '../config/email';
+import { generateInvoiceBuffer } from '../utils/invoice';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-06-20',
@@ -124,16 +125,43 @@ export const confirmPayment = async (req: Request, res: Response) => {
 
       if (orders.length > 0) {
         const order = orders[0];
-        
-        // Enviar email de confirmación
+
+        // Obtener items para adjuntar factura
         try {
-          await sendOrderConfirmation(
-            order.customerEmail,
-            order.orderNumber,
-            order.total
-          );
-        } catch (emailError) {
-          console.error('Error sending confirmation email:', emailError);
+          const [items] = await pool.query('SELECT * FROM order_items WHERE orderId = ?', [order.id]);
+          // Generate invoice locally and attach to confirmation email
+          try {
+            const buffer = await generateInvoiceBuffer(order, items as any[]);
+            try {
+              await sendOrderConfirmation(order.customerEmail, order.orderNumber, order.total, [
+                { filename: `invoice-${order.orderNumber}.pdf`, content: buffer },
+              ]);
+            } catch (emailError) {
+              console.error('Error sending confirmation email with attachment:', emailError);
+              // fallback: send without attachment
+              try {
+                await sendOrderConfirmation(order.customerEmail, order.orderNumber, order.total);
+              } catch (fallbackEmailErr) {
+                console.error('Error sending confirmation email (fallback):', fallbackEmailErr);
+              }
+            }
+          } catch (genErr) {
+            console.error('Local invoice generation failed:', genErr);
+            // send without attachment
+            try {
+              await sendOrderConfirmation(order.customerEmail, order.orderNumber, order.total);
+            } catch (emailError) {
+              console.error('Error sending confirmation email (fallback):', emailError);
+            }
+          }
+        } catch (invErr) {
+          console.error('Error generating/attaching invoice:', invErr);
+          // Fallback: send without attachment
+          try {
+            await sendOrderConfirmation(order.customerEmail, order.orderNumber, order.total);
+          } catch (emailError) {
+            console.error('Error sending confirmation email (fallback):', emailError);
+          }
         }
       }
 

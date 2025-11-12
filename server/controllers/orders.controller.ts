@@ -2,6 +2,10 @@ import { Request, Response } from 'express';
 import pool from '../config/database';
 import { ResultSetHeader, RowDataPacket } from 'mysql2';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+import { generateInvoiceBuffer } from '../utils/invoice';
+
 // Crear pedido
 export const createOrder = async (req: Request, res: Response) => {
   try {
@@ -120,10 +124,27 @@ export const getOrderById = async (req: Request, res: Response) => {
       [id]
     );
 
-    const order = {
+    const order: any = {
       ...orders[0],
-      items
+      items: items as any[],
     };
+
+    // Parse shipping/billing addresses if they are JSON strings
+    try {
+      if (order.shippingAddress && typeof order.shippingAddress === 'string') {
+        order.shippingAddress = JSON.parse(order.shippingAddress);
+      }
+    } catch (e) {
+      // leave as-is
+    }
+
+    try {
+      if (order.billingAddress && typeof order.billingAddress === 'string') {
+        order.billingAddress = JSON.parse(order.billingAddress);
+      }
+    } catch (e) {
+      // leave as-is
+    }
 
     res.json(order);
   } catch (error) {
@@ -172,5 +193,43 @@ export const updateOrderStatus = async (req: Request, res: Response) => {
   } catch (error) {
     console.error('Error updating order status:', error);
     res.status(500).json({ error: 'Error al actualizar pedido' });
+  }
+};
+
+// Generar factura PDF para un pedido
+export const generateInvoice = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const userId = req.userId;
+
+    const [orders] = await pool.query<RowDataPacket[]>(
+      `SELECT * FROM orders WHERE id = ? AND (userId = ? OR ? IS NULL)`,
+      [id, userId, userId]
+    );
+
+    if (orders.length === 0) {
+      return res.status(404).json({ error: 'Pedido no encontrado' });
+    }
+
+    const [items] = await pool.query<RowDataPacket[]>(
+      'SELECT * FROM order_items WHERE orderId = ?',
+      [id]
+    );
+
+    const order = { ...orders[0], items };
+
+  try {
+    const buffer = await generateInvoiceBuffer(order, items as any[]);
+    res.setHeader('Content-Type', 'application/pdf');
+    const filename = `invoice-${(order as any).orderNumber}.pdf`;
+    res.setHeader('Content-Disposition', `attachment; filename=${filename}`);
+    res.send(buffer);
+  } catch (genError) {
+    console.error('generateInvoice: generation failed', genError);
+    res.status(500).json({ error: 'Error al generar factura' });
+  }
+  } catch (error) {
+    console.error('Error generating invoice:', error);
+    res.status(500).json({ error: 'Error al generar factura' });
   }
 };

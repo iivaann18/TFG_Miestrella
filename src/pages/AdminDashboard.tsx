@@ -19,6 +19,7 @@ import Loader from '../components/Loader';
 import ProductModal from '../components/modals/ProductModal';
 import CouponModal from '../components/modals/CouponModal';
 import EmployeeModal from '../components/modals/EmployeeModal';
+import OrderModal from '../components/modals/OrderModal';
 import { productsAPI, ordersAPI, couponsAPI, usersAPI, authAPI } from '../services/api';
 import { Product, Order, Coupon, User } from '../types';
 import { useAuth } from '../context/AuthContext';
@@ -39,6 +40,8 @@ const AdminDashboard: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
   const [selectedEmployee, setSelectedEmployee] = useState<User | null>(null);
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [orderModalOpen, setOrderModalOpen] = useState(false);
 
   const [message, setMessage] = useState({ type: '', text: '' });
 
@@ -211,6 +214,20 @@ const AdminDashboard: React.FC = () => {
       loadDashboardData();
     } catch (error: any) {
       showMessage('error', error.response?.data?.error || 'Error al actualizar pedido');
+    }
+  };
+
+  const openOrderDetails = async (orderId: number) => {
+    try {
+      setLoading(true);
+      const res = await ordersAPI.getById(orderId);
+      setSelectedOrder(res.data);
+      setOrderModalOpen(true);
+    } catch (err) {
+      console.error('Error cargando orden:', err);
+      showMessage('error', 'No se pudieron cargar los detalles del pedido');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -644,7 +661,11 @@ const AdminDashboard: React.FC = () => {
                           </td>
                           {canEditOrders() && (
                             <td className="px-6 py-4 whitespace-nowrap">
-                              <button className="text-primary-brown hover:text-primary-gold transition-colors">
+                              <button
+                                  onClick={() => openOrderDetails(order.id)}
+                                className="text-primary-brown hover:text-primary-gold transition-colors"
+                                title="Ver detalles"
+                              >
                                 <Eye className="w-5 h-5" />
                               </button>
                             </td>
@@ -889,6 +910,14 @@ const AdminDashboard: React.FC = () => {
         }}
         onSave={handleSaveEmployee}
         employee={selectedEmployee}
+      />
+      <OrderModal
+        isOpen={orderModalOpen}
+        onClose={() => {
+          setOrderModalOpen(false);
+          setSelectedOrder(null);
+        }}
+        order={selectedOrder}
       />
     </div>
   );
