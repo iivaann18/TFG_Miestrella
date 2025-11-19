@@ -52,12 +52,12 @@ const ImageModal: React.FC<ImageModalProps> = ({ isOpen, imageSrc, imageAlt, onC
             exit={{ scale: 0.8, opacity: 0 }}
             transition={{ type: 'spring', damping: 25 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative max-w-7xl max-h-[90vh] w-full"
+            className="relative flex flex-col items-center justify-center max-w-7xl max-h-[90vh]"
           >
             <img
               src={imageSrc}
               alt={imageAlt}
-              className="w-full h-full object-contain"
+              className="max-w-full max-h-[85vh] object-contain"
             />
             <p className="text-white text-center mt-4 text-lg">{imageAlt}</p>
           </motion.div>
