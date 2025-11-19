@@ -251,13 +251,13 @@ const Store: React.FC = () => {
               {/* Contact Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
-                  href="https://wa.me/34123456789?text=Hola,%20me%20gustaría%20solicitar%20un%20presupuesto%20para%20una%20figura%20personalizada"
+                  href="https://wa.me/34666714788?text=Hola,%20me%20gustaría%20solicitar%20un%20presupuesto%20para%20una%20figura%20personalizada"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white font-semibold px-8 py-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
                 >
                   <MessageCircle className="w-6 h-6" />
-                  Solicitar por WhatsApp
+                  📱 +34 666 71 47 88
                 </a>
                 
                 <a
@@ -265,7 +265,7 @@ const Store: React.FC = () => {
                   className="flex items-center justify-center gap-3 bg-primary-brown hover:opacity-90 text-white font-semibold px-8 py-4 rounded-lg shadow-lg transition-all transform hover:scale-105"
                 >
                   <Mail className="w-6 h-6" />
-                  Contactar por Email
+                  ✉️ Contactar por Email
                 </a>
               </div>
             </div>
@@ -311,20 +311,20 @@ const Store: React.FC = () => {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
-                  href="https://wa.me/34123456789?text=Hola,%20me%20gustaría%20solicitar%20un%20presupuesto%20para%20una%20figura%20personalizada"
+                  href="https://wa.me/34666714788?text=Hola,%20me%20gustaría%20solicitar%20un%20presupuesto%20para%20una%20figura%20personalizada"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-white text-primary-brown font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-100 transition-all inline-flex items-center justify-center gap-2"
                 >
                   <MessageCircle className="w-5 h-5" />
-                  WhatsApp
+                  📱 WhatsApp
                 </a>
                 <a
                   href="mailto:info@miestrella.com?subject=Solicitud%20de%20Figura%20Personalizada"
                   className="bg-white text-primary-brown font-semibold px-8 py-3 rounded-lg shadow-lg hover:bg-gray-100 transition-all inline-flex items-center justify-center gap-2"
                 >
                   <Mail className="w-5 h-5" />
-                  Email
+                  ✉️ Email
                 </a>
               </div>
             </div>
