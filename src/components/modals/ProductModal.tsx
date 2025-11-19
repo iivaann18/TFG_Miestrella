@@ -79,13 +79,58 @@ const ProductModal: React.FC<ProductModalProps> = ({
     onClose();
   };
 
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [uploadingImage, setUploadingImage] = useState(false);
+
   const handleImageAdd = () => {
-    const url = prompt('Ingresa la URL de la imagen:');
+    const url = prompt('Ingresa la URL de la imagen o nombre del archivo en /uploads/products/stock/:');
     if (url) {
+      // Si solo es un nombre de archivo, añadir la ruta completa
+      const fullUrl = url.startsWith('/') || url.startsWith('http') 
+        ? url 
+        : `/uploads/products/stock/${url}`;
+      
       setFormData(prev => ({
         ...prev,
-        images: [...prev.images, url]
+        images: [...prev.images, fullUrl]
       }));
+    }
+  };
+
+  const handleImageFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Validar tipo de archivo
+      if (!file.type.startsWith('image/')) {
+        alert('Por favor selecciona un archivo de imagen válido');
+        return;
+      }
+
+      // Validar tamaño (máx 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        alert('La imagen no debe superar 2MB');
+        return;
+      }
+
+      // Crear preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const preview = reader.result as string;
+        setImagePreview(preview);
+        
+        // Usar el nombre del archivo como URL temporal
+        const fileName = file.name;
+        const url = `/uploads/products/stock/${fileName}`;
+        
+        setFormData(prev => ({
+          ...prev,
+          images: [...prev.images, url]
+        }));
+        
+        // Limpiar preview después de 2 segundos
+        setTimeout(() => setImagePreview(null), 2000);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -308,15 +353,38 @@ const ProductModal: React.FC<ProductModalProps> = ({
                   Imágenes
                 </label>
                 <div className="space-y-4">
-                  <Button
-                    type="button"
-                    onClick={handleImageAdd}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Upload className="w-4 h-4 mr-2" />
-                    Añadir Imagen
-                  </Button>
+                  <div className="flex gap-3">
+                    <Button
+                      type="button"
+                      onClick={handleImageAdd}
+                      variant="outline"
+                      size="sm"
+                    >
+                      <Upload className="w-4 h-4 mr-2" />
+                      Añadir por URL
+                    </Button>
+                    
+                    <label className="cursor-pointer">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageFile}
+                        className="hidden"
+                      />
+                      <div className="inline-flex items-center px-4 py-2 bg-primary-brown text-white rounded-lg hover:opacity-90 transition-opacity text-sm font-medium">
+                        <Upload className="w-4 h-4 mr-2" />
+                        Subir Archivo
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* Preview temporal */}
+                  {imagePreview && (
+                    <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                      <p className="text-sm text-green-800 mb-2">✅ Imagen añadida (guarda el producto para confirmar)</p>
+                      <img src={imagePreview} alt="Preview" className="h-20 object-contain rounded" />
+                    </div>
+                  )}
                   
                   {formData.images.length > 0 && (
                     <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

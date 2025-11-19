@@ -13,6 +13,9 @@ import {
   UserPlus,
   Power,
   PowerOff,
+  Copy,
+  DollarSign,
+  Archive,
 } from 'lucide-react';
 import Button from '../components/Button';
 import Loader from '../components/Loader';
@@ -125,6 +128,53 @@ const AdminDashboard: React.FC = () => {
       loadDashboardData();
     } catch (error: any) {
       showMessage('error', error.response?.data?.error || 'Error al eliminar producto');
+    }
+  };
+
+  const handleDuplicateProduct = async (product: Product) => {
+    try {
+      const duplicatedData = {
+        ...product,
+        title: `${product.title} (Copia)`,
+        handle: `${product.handle}-copia-${Date.now()}`,
+        sku: product.sku ? `${product.sku}-COPY` : '',
+        status: 'draft' as const,
+      };
+      
+      // Eliminar id para crear nuevo
+      const { id, createdAt, updatedAt, ...productData } = duplicatedData as any;
+      
+      await productsAPI.create(productData);
+      showMessage('success', 'Producto duplicado exitosamente');
+      loadDashboardData();
+    } catch (error: any) {
+      showMessage('error', error.response?.data?.error || 'Error al duplicar producto');
+    }
+  };
+
+  const handleQuickPriceUpdate = async (id: number, newPrice: number) => {
+    try {
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+      
+      await productsAPI.update(id, { ...product, price: newPrice });
+      showMessage('success', 'Precio actualizado');
+      loadDashboardData();
+    } catch (error: any) {
+      showMessage('error', 'Error al actualizar precio');
+    }
+  };
+
+  const handleQuickStockUpdate = async (id: number, newStock: number) => {
+    try {
+      const product = products.find(p => p.id === id);
+      if (!product) return;
+      
+      await productsAPI.update(id, { ...product, inventory: newStock });
+      showMessage('success', 'Stock actualizado');
+      loadDashboardData();
+    } catch (error: any) {
+      showMessage('error', 'Error al actualizar stock');
     }
   };
 
@@ -550,16 +600,45 @@ const AdminDashboard: React.FC = () => {
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="flex space-x-2">
                               {canEditProducts() && (
-                                <button
-                                  onClick={() => {
-                                    setSelectedProduct(product);
-                                    setProductModalOpen(true);
-                                  }}
-                                  className="text-primary-brown hover:text-primary-gold transition-colors"
-                                  title="Editar"
-                                >
-                                  <Edit className="w-5 h-5" />
-                                </button>
+                                <>
+                                  <button
+                                    onClick={() => {
+                                      setSelectedProduct(product);
+                                      setProductModalOpen(true);
+                                    }}
+                                    className="text-primary-brown hover:text-primary-gold transition-colors"
+                                    title="Editar"
+                                  >
+                                    <Edit className="w-5 h-5" />
+                                  </button>
+                                  <button
+                                    onClick={() => handleDuplicateProduct(product)}
+                                    className="text-blue-500 hover:text-blue-700 transition-colors"
+                                    title="Duplicar"
+                                  >
+                                    <Copy className="w-5 h-5" />
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      const newPrice = prompt('Nuevo precio (€):', product.price.toString());
+                                      if (newPrice) handleQuickPriceUpdate(product.id, parseFloat(newPrice));
+                                    }}
+                                    className="text-green-500 hover:text-green-700 transition-colors"
+                                    title="Edición rápida precio"
+                                  >
+                                    <DollarSign className="w-5 h-5" />
+                                  </button>
+                                  <button
+                                    onClick={() => {
+                                      const newStock = prompt('Nuevo stock:', product.inventory.toString());
+                                      if (newStock) handleQuickStockUpdate(product.id, parseInt(newStock));
+                                    }}
+                                    className="text-orange-500 hover:text-orange-700 transition-colors"
+                                    title="Edición rápida stock"
+                                  >
+                                    <Archive className="w-5 h-5" />
+                                  </button>
+                                </>
                               )}
                               {canDeleteProducts() && (
                                 <button
