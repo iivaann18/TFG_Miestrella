@@ -23,13 +23,14 @@ const CreationsGallery: React.FC<CreationsGalleryProps> = ({
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
           {images.map((src, i) => (
-            <div key={i} className="group overflow-hidden rounded-lg bg-white shadow-sm">
-              <div
-                className="h-48 bg-center bg-cover transition-transform duration-300 group-hover:scale-105"
-                style={{ backgroundImage: `url(${src})` }}
-              />
-              <div className="p-3">
-                <p className="text-sm text-gray-700">Figura {i + 1}</p>
+            <div key={i} className="group overflow-hidden rounded-lg bg-gray-50 shadow-sm">
+              <div className="h-56 bg-gray-50 flex items-center justify-center p-1">
+                <img 
+                  src={src} 
+                  alt={`Figura de porcelana ${i + 1}`}
+                  className="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105"
+                  onError={(e) => console.error('Error loading image:', src, e)}
+                />
               </div>
             </div>
           ))}

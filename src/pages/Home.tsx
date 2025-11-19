@@ -6,7 +6,6 @@ import Button from '../components/Button';
 import NewsletterForm from '../components/NewsletterForm';
 import HeroCarousel from '../components/HeroCarousel';
 import CreationsGallery from '../components/CreationsGallery';
-import { useEffect, useState } from 'react';
 
 const Home: React.FC = () => {
   const features = [
@@ -27,21 +26,28 @@ const Home: React.FC = () => {
     },
   ];
 
-  const [images, setImages] = useState<string[]>([]);
-
-  useEffect(() => {
-    // fetch product images list from server
-    const fetchImages = async () => {
-      try {
-        const res = await fetch('/api/uploads/products');
-        const data = await res.json();
-        if (data && Array.isArray(data.images)) setImages(data.images);
-      } catch (e) {
-        console.warn('Failed to fetch product images', e);
-      }
-    };
-    fetchImages();
-  }, []);
+  // Lista de imágenes hardcodeada - las imágenes están en public/uploads/products
+  const images = [
+    '/uploads/products/Figuraabogada.jpeg',
+    '/uploads/products/Figuraboda.jpeg',
+    '/uploads/products/Figuraboda2.jpeg',
+    '/uploads/products/Figuraboda3.jpeg',
+    '/uploads/products/Figuraboda4.jpeg',
+    '/uploads/products/Figuraboda5.jpeg',
+    '/uploads/products/Figurabola.jpeg',
+    '/uploads/products/Figuracaravan.jpeg',
+    '/uploads/products/Figuracomunion.jpeg',
+    '/uploads/products/Figuradiego.jpeg',
+    '/uploads/products/Figuraharry.jpeg',
+    '/uploads/products/Figuralucas.jpeg',
+    '/uploads/products/Figuranaina.jpeg',
+    '/uploads/products/Figuranena.jpeg',
+    '/uploads/products/Figuranina.jpeg',
+    '/uploads/products/Figuranona.jpeg',
+    '/uploads/products/Figuraratica.jpeg',
+    '/uploads/products/Figurarobotica.jpeg',
+    '/uploads/products/Figuraskater.jpeg',
+  ];
 
   return (
     <div className="min-h-screen">
@@ -51,7 +57,7 @@ const Home: React.FC = () => {
           <div className="md:col-span-7">
             {/* Use uploaded product images if present */}
             {/** Images live in public/uploads/products and are served statically */}
-            <HeroCarousel images={images.length ? images.slice(0, 4) : undefined} />
+            <HeroCarousel images={images.slice(0, 4)} />
           </div>
 
           <div className="md:col-span-5">
@@ -79,8 +85,8 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Gallery: Nuestras creaciones (debajo del hero) */}
-      <CreationsGallery images={images.length ? images : undefined} />
+      {/* Gallery: Nuestras creaciones (debajo del hero) - Excluye las primeras 4 que están en el carrusel */}
+      <CreationsGallery images={images.slice(4)} />
 
 
       {/* Features Section */}

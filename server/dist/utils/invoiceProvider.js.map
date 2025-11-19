@@ -1,0 +1,1 @@
+{"version":3,"file":"invoiceProvider.js","sourceRoot":"","sources":["../../utils/invoiceProvider.ts"],"names":[],"mappings":"AAAA,4FAA4F;AAC5F,MAAM,CAAC,MAAM,2BAA2B,GAAG,KAAK,EAAE,MAAY,EAAE,MAAc,EAAE,EAAE;IAChF,MAAM,IAAI,KAAK,CAAC,sEAAsE,CAAC,CAAC;AAC1F,CAAC,CAAC;AAEF,eAAe,2BAA2B,CAAC"}

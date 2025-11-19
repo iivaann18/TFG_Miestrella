@@ -51,7 +51,14 @@ const HeroCarousel: React.FC<HeroCarouselProps> = ({
           style={{ transform: `translateX(-${index * 100}%)` }}
         >
           {images.map((src, i) => (
-            <div key={i} className="w-full flex-shrink-0 h-96 md:h-[520px] bg-center bg-cover" style={{ backgroundImage: `url(${src})` }} />
+            <div key={i} className="w-full flex-shrink-0 h-96 md:h-[520px] bg-white flex items-center justify-center">
+              <img 
+                src={src} 
+                alt={`Figura de porcelana ${i + 1}`}
+                className="max-w-full max-h-full object-contain"
+                onError={(e) => console.error('Error loading image:', src, e)}
+              />
+            </div>
           ))}
         </div>
 
