@@ -32,7 +32,16 @@ const Home: React.FC = () => {
       <section className="py-12 px-4 bg-[var(--bg-surface,#fff5f2)]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-7">
-            <HeroCarousel />
+            {/* Use uploaded product images if present */}
+            {/** Images live in public/uploads/products and are served statically */}
+            <HeroCarousel
+              images={[
+                '/uploads/products/Figuranina.jpeg',
+                '/uploads/products/Figuranena.jpeg',
+                '/uploads/products/Figuraboda.jpeg',
+                '/uploads/products/Figuraboda2.jpeg',
+              ]}
+            />
           </div>
 
           <div className="md:col-span-5">
@@ -61,7 +70,18 @@ const Home: React.FC = () => {
       </section>
 
       {/* Gallery: Nuestras creaciones (debajo del hero) */}
-      <CreationsGallery />
+      <CreationsGallery
+        images={[
+          '/uploads/products/Figuranina.jpeg',
+          '/uploads/products/Figuranena.jpeg',
+          '/uploads/products/Figuraboda.jpeg',
+          '/uploads/products/Figuraboda2.jpeg',
+          '/uploads/products/Figuraboda3.jpeg',
+          '/uploads/products/Figuraboda4.jpeg',
+          '/uploads/products/Figuraboda5.jpeg',
+          '/uploads/products/Figuranona.jpeg',
+        ]}
+      />
 
 
       {/* Features Section */}
