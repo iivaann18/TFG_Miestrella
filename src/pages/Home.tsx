@@ -60,6 +60,9 @@ const Home: React.FC = () => {
         </div>
       </section>
 
+      {/* Gallery: Nuestras creaciones (debajo del hero) */}
+      <CreationsGallery />
+
 
       {/* Features Section */}
       <section className="py-20 px-4 bg-white">
