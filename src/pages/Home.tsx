@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Sparkles, Star, Heart } from 'lucide-react';
 import Button from '../components/Button';
 import NewsletterForm from '../components/NewsletterForm';
+import HeroCarousel from '../components/HeroCarousel';
+import CreationsGallery from '../components/CreationsGallery';
 
 const Home: React.FC = () => {
   const features = [
@@ -26,73 +28,38 @@ const Home: React.FC = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-primary-light via-primary-pink to-primary-teal py-20 px-4 overflow-hidden">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="max-w-7xl mx-auto text-center"
-        >
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.2, duration: 0.8 }}
-            className="text-5xl md:text-7xl font-bold text-primary-dark mb-6"
-          >
-            Arte en Porcelana
-          </motion.h1>
-          
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.4, duration: 0.8 }}
-            className="text-xl md:text-2xl text-primary-brown mb-8 max-w-3xl mx-auto"
-          >
-            Descubre nuestra colección exclusiva de figuras artesanales. 
-            Cada pieza cuenta una historia única.
-          </motion.p>
+      {/* Redesigned Hero: two-column block (carousel left, panel right) */}
+      <section className="py-12 px-4 bg-[var(--bg-surface,#fff5f2)]">
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <div className="md:col-span-7">
+            <HeroCarousel />
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
-          >
-            <Link to="/store">
-              <Button variant="primary" size="lg">
-                Explorar Colección
-                <ArrowRight className="w-5 h-5 ml-2 inline-block" />
-              </Button>
-            </Link>
-          </motion.div>
-        </motion.div>
+          <div className="md:col-span-5">
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="bg-white p-8 rounded-xl shadow-lg"
+            >
+              <h1 className="text-4xl md:text-5xl font-serif text-primary-dark mb-4">Figuras de Porcelana Hechas a Mano</h1>
+              <p className="text-gray-600 mb-6 leading-relaxed">Piezas únicas, modeladas y esmaltadas con delicadeza. Cada figura está pensada para transmitir calidez y elegancia artesanal.</p>
 
-        {/* Decorative Elements */}
-        <motion.div
-          animate={{
-            y: [0, -20, 0],
-            rotate: [0, 5, 0],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-          className="absolute top-10 left-10 w-20 h-20 bg-primary-gold opacity-20 rounded-full blur-xl"
-        />
-        <motion.div
-          animate={{
-            y: [0, 20, 0],
-            rotate: [0, -5, 0],
-          }}
-          transition={{
-            duration: 7,
-            repeat: Infinity,
-            ease: 'easeInOut',
-          }}
-          className="absolute bottom-10 right-10 w-32 h-32 bg-primary-rose opacity-20 rounded-full blur-xl"
-        />
+              <div className="flex gap-3 mb-4">
+                <Link to="/store">
+                  <Button variant="primary">Comprar ahora</Button>
+                </Link>
+                <Link to="/about">
+                  <Button variant="outline">Conocer la técnica</Button>
+                </Link>
+              </div>
+
+              <p className="text-sm text-gray-500">Envíos a toda la península · Personalización por encargo</p>
+            </motion.div>
+          </div>
+        </div>
       </section>
+
 
       {/* Features Section */}
       <section className="py-20 px-4 bg-white">
