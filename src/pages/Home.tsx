@@ -6,6 +6,7 @@ import Button from '../components/Button';
 import NewsletterForm from '../components/NewsletterForm';
 import HeroCarousel from '../components/HeroCarousel';
 import CreationsGallery from '../components/CreationsGallery';
+import { useEffect, useState } from 'react';
 
 const Home: React.FC = () => {
   const features = [
@@ -26,6 +27,22 @@ const Home: React.FC = () => {
     },
   ];
 
+  const [images, setImages] = useState<string[]>([]);
+
+  useEffect(() => {
+    // fetch product images list from server
+    const fetchImages = async () => {
+      try {
+        const res = await fetch('/api/uploads/products');
+        const data = await res.json();
+        if (data && Array.isArray(data.images)) setImages(data.images);
+      } catch (e) {
+        console.warn('Failed to fetch product images', e);
+      }
+    };
+    fetchImages();
+  }, []);
+
   return (
     <div className="min-h-screen">
       {/* Redesigned Hero: two-column block (carousel left, panel right) */}
@@ -34,14 +51,7 @@ const Home: React.FC = () => {
           <div className="md:col-span-7">
             {/* Use uploaded product images if present */}
             {/** Images live in public/uploads/products and are served statically */}
-            <HeroCarousel
-              images={[
-                '/uploads/products/Figuranina.jpeg',
-                '/uploads/products/Figuranena.jpeg',
-                '/uploads/products/Figuraboda.jpeg',
-                '/uploads/products/Figuraboda2.jpeg',
-              ]}
-            />
+            <HeroCarousel images={images.length ? images.slice(0, 4) : undefined} />
           </div>
 
           <div className="md:col-span-5">
@@ -70,18 +80,7 @@ const Home: React.FC = () => {
       </section>
 
       {/* Gallery: Nuestras creaciones (debajo del hero) */}
-      <CreationsGallery
-        images={[
-          '/uploads/products/Figuranina.jpeg',
-          '/uploads/products/Figuranena.jpeg',
-          '/uploads/products/Figuraboda.jpeg',
-          '/uploads/products/Figuraboda2.jpeg',
-          '/uploads/products/Figuraboda3.jpeg',
-          '/uploads/products/Figuraboda4.jpeg',
-          '/uploads/products/Figuraboda5.jpeg',
-          '/uploads/products/Figuranona.jpeg',
-        ]}
-      />
+      <CreationsGallery images={images.length ? images : undefined} />
 
 
       {/* Features Section */}

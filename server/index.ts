@@ -11,6 +11,7 @@ import couponsRoutes from './routes/coupons.routes';
 import usersRoutes from './routes/users.routes';
 import newsletterRoutes from './routes/newsletter.routes';
 import paymentsRoutes from './routes/payments.routes';
+import uploadsRoutes from './routes/uploads.routes';
 
 dotenv.config();
 
@@ -55,6 +56,7 @@ app.use((req, res, next) => {
 // API Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productsRoutes);
+app.use('/api/uploads', uploadsRoutes);
 app.use('/api/orders', ordersRoutes);
 app.use('/api/coupons', couponsRoutes);
 app.use('/api/users', usersRoutes);
