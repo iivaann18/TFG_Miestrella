@@ -26,16 +26,16 @@ const Home: React.FC = () => {
     },
   ];
 
-  // Lista de imágenes hardcodeada - las imágenes están en public/uploads/products/custom
+  // Lista de imágenes hardcodeada - las imágenes están en public/uploads/products
   const images = [
-    '/uploads/products/custom/ejemplo1.jpeg',
-    '/uploads/products/custom/ejemplo2.jpeg',
-    '/uploads/products/custom/ejemplo3.jpeg',
-    '/uploads/products/custom/ejemplo4.jpeg',
-    '/uploads/products/custom/ejemplo5.jpeg',
-    '/uploads/products/custom/ejemplo6.jpeg',
-    '/uploads/products/custom/ejemplo7.jpeg',
-    '/uploads/products/custom/ejemplo8.jpeg',
+    '/uploads/products/Figuraabogada.jpeg',
+    '/uploads/products/Figuraboda.jpeg',
+    '/uploads/products/Figuraboda2.jpeg',
+    '/uploads/products/Figuraboda3.jpeg',
+    '/uploads/products/Figuraharry.jpeg',
+    '/uploads/products/Figuraskater.jpeg',
+    '/uploads/products/Figuranaina.jpeg',
+    '/uploads/products/Figurarobotica.jpeg',
   ];
 
   return (

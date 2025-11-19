@@ -16,12 +16,26 @@ const Store: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [priceFilter, setPriceFilter] = useState<'all' | 'low' | 'medium' | 'high'>('all');
 
-  // Imágenes de ejemplo para personalizadas (carpeta custom/)
+  // Imágenes de ejemplo para personalizadas (las mejores para mostrar)
   const customExamples = [
-    { src: '/uploads/products/custom/ejemplo1.jpeg', name: 'Figura Abogada Personalizada' },
-    { src: '/uploads/products/custom/ejemplo2.jpeg', name: 'Figura Boda a Medida' },
-    { src: '/uploads/products/custom/ejemplo3.jpeg', name: 'Figura Temática Harry' },
-    { src: '/uploads/products/custom/ejemplo4.jpeg', name: 'Figura Skater Personalizada' },
+    { src: '/uploads/products/Figuraabogada.jpeg', name: 'Figura Abogada Personalizada' },
+    { src: '/uploads/products/Figuraboda.jpeg', name: 'Figura Boda a Medida' },
+    { src: '/uploads/products/Figuraharry.jpeg', name: 'Figura Temática Harry' },
+    { src: '/uploads/products/Figuraskater.jpeg', name: 'Figura Skater Personalizada' },
+  ];
+
+  // Productos en stock (brujas y duendes disponibles)
+  const stockItems = [
+    { src: '/uploads/products/stock/Bruja.jpeg', name: 'Bruja Clásica', price: 45 },
+    { src: '/uploads/products/stock/Bruja azul.jpeg', name: 'Bruja Azul', price: 45 },
+    { src: '/uploads/products/stock/Bruja morada.jpeg', name: 'Bruja Morada', price: 45 },
+    { src: '/uploads/products/stock/Bruja roja.jpeg', name: 'Bruja Roja', price: 45 },
+    { src: '/uploads/products/stock/Bruja pequena.jpeg', name: 'Bruja Pequeña', price: 35 },
+    { src: '/uploads/products/stock/Duende.jpeg', name: 'Duende Clásico', price: 40 },
+    { src: '/uploads/products/stock/Duende 2.jpeg', name: 'Duende Sonriente', price: 40 },
+    { src: '/uploads/products/stock/Duende con ropa.jpeg', name: 'Duende con Ropa', price: 45 },
+    { src: '/uploads/products/stock/Duendes brazos movibles.jpeg', name: 'Duende Articulado', price: 50 },
+    { src: '/uploads/products/stock/Otroduende.jpeg', name: 'Duende Especial', price: 40 },
   ];
 
   useEffect(() => {
@@ -176,55 +190,97 @@ const Store: React.FC = () => {
             {/* Results Count con estilo */}
             <div className="flex items-center justify-between">
               <p className="text-gray-600 font-medium">
-                📦 Mostrando <span className="text-primary-brown font-bold">{filteredProducts.length}</span> de <span className="font-bold">{products.length}</span> productos
+                📦 Mostrando <span className="text-primary-brown font-bold">{filteredProducts.length + stockItems.length}</span> productos en total
               </p>
-              {filteredProducts.length > 0 && (
-                <p className="text-sm text-gray-500">
-                  ✨ Envío gratuito en pedidos superiores a 50€
-                </p>
-              )}
+              <p className="text-sm text-gray-500">
+                ✨ Envío gratuito en pedidos superiores a 50€
+              </p>
             </div>
 
-            {/* Products Grid o Empty State */}
-            {filteredProducts.length === 0 ? (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="bg-white rounded-xl shadow-lg p-12 text-center"
-              >
-                <div className="text-6xl mb-4">🔍</div>
-                <h3 className="text-2xl font-bold text-gray-700 mb-2">
-                  No encontramos productos
+            {/* Productos de Stock (siempre visibles) */}
+            <div className="space-y-6">
+              <div className="bg-gradient-to-r from-primary-rose/20 to-primary-gold/20 rounded-xl p-6 text-center">
+                <h3 className="text-2xl font-bold text-primary-dark mb-2">
+                  ✨ Colección en Stock
                 </h3>
-                <p className="text-gray-500 mb-6">
-                  Prueba con otros términos de búsqueda o ajusta los filtros
+                <p className="text-gray-600">
+                  Brujas y duendes de porcelana hechos a mano. Contacta para realizar tu pedido.
                 </p>
-                <button
-                  onClick={() => {
-                    setSearchTerm('');
-                    setPriceFilter('all');
-                  }}
-                  className="bg-primary-brown text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all"
-                >
-                  Limpiar filtros
-                </button>
-              </motion.div>
-            ) : (
+              </div>
+
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredProducts.map((product, index) => (
+                {stockItems.map((item, index) => (
                   <motion.div
-                    key={product.id}
+                    key={`stock-${index}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: index * 0.05 }}
-                    whileHover={{ y: -5 }}
-                    className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden"
+                    whileHover={{ y: -5, scale: 1.02 }}
+                    className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden group"
                   >
-                    <ProductCard product={product} />
+                    <div className="relative aspect-square overflow-hidden">
+                      <img
+                        src={item.src}
+                        alt={item.name}
+                        className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
+                        onError={(e) => {
+                          console.error('Error loading image:', item.src);
+                          e.currentTarget.src = 'https://via.placeholder.com/400?text=Imagen+no+disponible';
+                        }}
+                      />
+                      <div className="absolute top-2 right-2 bg-primary-rose text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        Stock
+                      </div>
+                    </div>
+                    <div className="p-4 text-center">
+                      <h3 className="font-bold text-lg text-primary-dark mb-2">{item.name}</h3>
+                      <p className="text-2xl font-bold text-primary-brown mb-3">€{item.price}</p>
+                      <button
+                        onClick={() => {
+                          const message = `Hola! Me interesa la ${item.name} de €${item.price}`;
+                          window.open(`https://wa.me/34666714788?text=${encodeURIComponent(message)}`, '_blank');
+                        }}
+                        className="w-full bg-primary-brown text-white py-2 rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-2"
+                      >
+                        <MessageCircle className="w-4 h-4" />
+                        Consultar
+                      </button>
+                    </div>
                   </motion.div>
                 ))}
               </div>
+            </div>
+
+            {/* Productos del Admin (si hay) */}
+            {filteredProducts.length > 0 && (
+              <div className="space-y-6 mt-12">
+                <div className="bg-gradient-to-r from-primary-gold/20 to-primary-brown/20 rounded-xl p-6 text-center">
+                  <h3 className="text-2xl font-bold text-primary-dark mb-2">
+                    🛍️ Más Productos Disponibles
+                  </h3>
+                  <p className="text-gray-600">
+                    Productos adicionales que puedes comprar directamente desde nuestra tienda.
+                  </p>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                  {filteredProducts.map((product, index) => (
+                    <motion.div
+                      key={product.id}
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.05 }}
+                      whileHover={{ y: -5 }}
+                      className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden"
+                    >
+                      <ProductCard product={product} />
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
             )}
+
+
 
             {/* Info adicional */}
             {filteredProducts.length > 0 && (
