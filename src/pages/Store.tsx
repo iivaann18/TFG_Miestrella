@@ -16,12 +16,12 @@ const Store: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [priceFilter, setPriceFilter] = useState<'all' | 'low' | 'medium' | 'high'>('all');
 
-  // Imágenes de ejemplo para personalizadas (las que están en el carrusel)
+  // Imágenes de ejemplo para personalizadas (carpeta custom/)
   const customExamples = [
-    { src: '/uploads/products/Figuraabogada.jpeg', name: 'Figura Abogada Personalizada' },
-    { src: '/uploads/products/Figuraboda.jpeg', name: 'Figura Boda a Medida' },
-    { src: '/uploads/products/Figuraharry.jpeg', name: 'Figura Temática Harry' },
-    { src: '/uploads/products/Figuraskater.jpeg', name: 'Figura Skater Personalizada' },
+    { src: '/uploads/products/custom/ejemplo1.jpeg', name: 'Figura Abogada Personalizada' },
+    { src: '/uploads/products/custom/ejemplo2.jpeg', name: 'Figura Boda a Medida' },
+    { src: '/uploads/products/custom/ejemplo3.jpeg', name: 'Figura Temática Harry' },
+    { src: '/uploads/products/custom/ejemplo4.jpeg', name: 'Figura Skater Personalizada' },
   ];
 
   useEffect(() => {
@@ -125,14 +125,24 @@ const Store: React.FC = () => {
 
         {/* Contenido según tab activo */}
         {activeTab === 'products' ? (
-          <>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-8"
+          >
+            {/* Header y descripción */}
+            <div className="bg-gradient-to-r from-primary-brown/10 via-primary-gold/10 to-primary-rose/10 rounded-xl p-8 text-center">
+              <h2 className="text-3xl font-bold text-primary-dark mb-3">
+                💎 Colección Disponible
+              </h2>
+              <p className="text-gray-600 text-lg">
+                Figuras de porcelana listas para enviar. Piezas únicas hechas a mano con todo el detalle y cariño.
+              </p>
+            </div>
+
             {/* Filters */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="bg-white rounded-xl shadow-custom p-6 mb-8"
-            >
+            <div className="bg-white rounded-xl shadow-lg p-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Search */}
                 <div className="relative">
@@ -142,7 +152,7 @@ const Store: React.FC = () => {
                     placeholder="Buscar productos..."
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-brown focus:border-transparent transition-all"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-brown focus:border-transparent transition-all"
                   />
                 </div>
 
@@ -152,60 +162,98 @@ const Store: React.FC = () => {
                   <select
                     value={priceFilter}
                     onChange={(e) => setPriceFilter(e.target.value as any)}
-                    className="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary-brown focus:border-transparent transition-all appearance-none cursor-pointer"
+                    className="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-brown focus:border-transparent transition-all appearance-none cursor-pointer bg-white"
                   >
-                    <option value="all">Todos los precios</option>
-                    <option value="low">Menos de €50</option>
-                    <option value="medium">€50 - €100</option>
-                    <option value="high">Más de €100</option>
+                    <option value="all">💰 Todos los precios</option>
+                    <option value="low">💵 Menos de €50</option>
+                    <option value="medium">💶 €50 - €100</option>
+                    <option value="high">💷 Más de €100</option>
                   </select>
                 </div>
               </div>
-            </motion.div>
+            </div>
 
-            {/* Results Count */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="mb-6"
-            >
-              <p className="text-gray-600">
-                Mostrando {filteredProducts.length} de {products.length} productos
+            {/* Results Count con estilo */}
+            <div className="flex items-center justify-between">
+              <p className="text-gray-600 font-medium">
+                📦 Mostrando <span className="text-primary-brown font-bold">{filteredProducts.length}</span> de <span className="font-bold">{products.length}</span> productos
               </p>
-            </motion.div>
+              {filteredProducts.length > 0 && (
+                <p className="text-sm text-gray-500">
+                  ✨ Envío gratuito en pedidos superiores a 50€
+                </p>
+              )}
+            </div>
 
-            {/* Products Grid */}
+            {/* Products Grid o Empty State */}
             {filteredProducts.length === 0 ? (
               <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-center py-12"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="bg-white rounded-xl shadow-lg p-12 text-center"
               >
-                <p className="text-xl text-gray-600">
-                  No se encontraron productos que coincidan con tu búsqueda.
+                <div className="text-6xl mb-4">🔍</div>
+                <h3 className="text-2xl font-bold text-gray-700 mb-2">
+                  No encontramos productos
+                </h3>
+                <p className="text-gray-500 mb-6">
+                  Prueba con otros términos de búsqueda o ajusta los filtros
                 </p>
+                <button
+                  onClick={() => {
+                    setSearchTerm('');
+                    setPriceFilter('all');
+                  }}
+                  className="bg-primary-brown text-white px-6 py-3 rounded-lg hover:opacity-90 transition-all"
+                >
+                  Limpiar filtros
+                </button>
               </motion.div>
             ) : (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8"
-              >
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {filteredProducts.map((product, index) => (
                   <motion.div
                     key={product.id}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.1 }}
+                    transition={{ delay: index * 0.05 }}
+                    whileHover={{ y: -5 }}
+                    className="bg-white rounded-xl shadow-md hover:shadow-xl transition-all overflow-hidden"
                   >
                     <ProductCard product={product} />
                   </motion.div>
                 ))}
+              </div>
+            )}
+
+            {/* Info adicional */}
+            {filteredProducts.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="bg-white rounded-xl shadow-lg p-8 mt-8"
+              >
+                <div className="grid md:grid-cols-3 gap-6 text-center">
+                  <div>
+                    <div className="text-3xl mb-2">🚚</div>
+                    <h4 className="font-semibold text-gray-800 mb-1">Envío Rápido</h4>
+                    <p className="text-sm text-gray-600">Entrega en 3-5 días laborables</p>
+                  </div>
+                  <div>
+                    <div className="text-3xl mb-2">🎁</div>
+                    <h4 className="font-semibold text-gray-800 mb-1">Embalaje Premium</h4>
+                    <p className="text-sm text-gray-600">Perfecto para regalo</p>
+                  </div>
+                  <div>
+                    <div className="text-3xl mb-2">✨</div>
+                    <h4 className="font-semibold text-gray-800 mb-1">100% Artesanal</h4>
+                    <p className="text-sm text-gray-600">Hecho a mano en España</p>
+                  </div>
+                </div>
               </motion.div>
             )}
-          </>
+          </motion.div>
         ) : (
           /* Sección Figuras Personalizadas */
           <motion.div

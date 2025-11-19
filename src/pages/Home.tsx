@@ -26,27 +26,16 @@ const Home: React.FC = () => {
     },
   ];
 
-  // Lista de imágenes hardcodeada - las imágenes están en public/uploads/products
+  // Lista de imágenes hardcodeada - las imágenes están en public/uploads/products/custom
   const images = [
-    '/uploads/products/Figuraabogada.jpeg',
-    '/uploads/products/Figuraboda.jpeg',
-    '/uploads/products/Figuraboda2.jpeg',
-    '/uploads/products/Figuraboda3.jpeg',
-    '/uploads/products/Figuraboda4.jpeg',
-    '/uploads/products/Figuraboda5.jpeg',
-    '/uploads/products/Figurabola.jpeg',
-    '/uploads/products/Figuracaravan.jpeg',
-    '/uploads/products/Figuracomunion.jpeg',
-    '/uploads/products/Figuradiego.jpeg',
-    '/uploads/products/Figuraharry.jpeg',
-    '/uploads/products/Figuralucas.jpeg',
-    '/uploads/products/Figuranaina.jpeg',
-    '/uploads/products/Figuranena.jpeg',
-    '/uploads/products/Figuranina.jpeg',
-    '/uploads/products/Figuranona.jpeg',
-    '/uploads/products/Figuraratica.jpeg',
-    '/uploads/products/Figurarobotica.jpeg',
-    '/uploads/products/Figuraskater.jpeg',
+    '/uploads/products/custom/ejemplo1.jpeg',
+    '/uploads/products/custom/ejemplo2.jpeg',
+    '/uploads/products/custom/ejemplo3.jpeg',
+    '/uploads/products/custom/ejemplo4.jpeg',
+    '/uploads/products/custom/ejemplo5.jpeg',
+    '/uploads/products/custom/ejemplo6.jpeg',
+    '/uploads/products/custom/ejemplo7.jpeg',
+    '/uploads/products/custom/ejemplo8.jpeg',
   ];
 
   return (
