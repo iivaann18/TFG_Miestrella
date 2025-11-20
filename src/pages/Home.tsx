@@ -39,13 +39,12 @@ const Home: React.FC = () => {
   ];
 
   return (
+
     <div className="min-h-screen">
       {/* Redesigned Hero: two-column block (carousel left, panel right) */}
       <section className="py-12 px-4 bg-[var(--bg-surface,#fff5f2)]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           <div className="md:col-span-7">
-            {/* Use uploaded product images if present */}
-            {/** Images live in public/uploads/products and are served statically */}
             <HeroCarousel images={images.slice(0, 4)} />
           </div>
 
@@ -63,14 +62,24 @@ const Home: React.FC = () => {
                 <Link to="/store">
                   <Button variant="primary">Comprar ahora</Button>
                 </Link>
-                <Link to="/about">
-                  <Button variant="outline">Conocer la técnica</Button>
-                </Link>
               </div>
 
               <p className="text-sm text-gray-500">Envíos a toda la península · Personalización por encargo</p>
             </motion.div>
           </div>
+        </div>
+      </section>
+
+      {/* Bloque destacado para personalizadas */}
+      <section className="py-10 px-4 bg-gradient-to-r from-primary-gold/10 to-primary-rose/10">
+        <div className="max-w-4xl mx-auto text-center rounded-xl shadow-lg bg-white/80 p-8">
+          <h2 className="text-3xl md:text-4xl font-bold text-primary-dark mb-3">¿Buscas una figura personalizada?</h2>
+          <p className="text-lg text-gray-700 mb-6">Creamos figuras únicas a medida para bodas, profesiones, hobbies, mascotas y mucho más. ¡Cuéntanos tu idea y la hacemos realidad!</p>
+          <a href="/store#custom" >
+            <Button variant="outline" size="lg" className="border-primary-brown text-primary-brown hover:bg-primary-light">
+              Personaliza tu figura
+            </Button>
+          </a>
         </div>
       </section>
 
@@ -116,8 +125,7 @@ const Home: React.FC = () => {
         </div>
       </section>
 
-      {/* Newsletter Section */}
-      <NewsletterForm />
+
 
       {/* CTA Section */}
       <section className="py-20 px-4 bg-gradient-to-r from-primary-brown via-primary-gold to-primary-rose">

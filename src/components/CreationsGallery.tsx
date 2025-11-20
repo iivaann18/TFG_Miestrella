@@ -54,13 +54,13 @@ const CreationsGallery: React.FC<CreationsGalleryProps> = ({
   };
 
   return (
-    <section className="py-16 px-4">
+    <section className="py-16 px-4 bg-gradient-to-r from-primary-gold/10 to-primary-rose/10">
       <div className="max-w-7xl mx-auto">
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-3xl font-semibold text-primary-dark mb-6"
+          className="text-4xl font-extrabold text-primary-brown mb-4 drop-shadow-lg text-center"
         >
           Nuestras creaciones
         </motion.h3>
@@ -69,7 +69,7 @@ const CreationsGallery: React.FC<CreationsGalleryProps> = ({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: 0.1 }}
-          className="text-gray-600 mb-6 max-w-2xl"
+          className="text-lg text-primary-dark mb-8 max-w-2xl mx-auto text-center font-medium drop-shadow"
         >
           Galería de piezas únicas hechas a mano. Cada imagen muestra detalles y acabados.
         </motion.p>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Search, Filter, MessageCircle, Mail } from 'lucide-react';
+import { Search, Filter, MessageCircle, Mail, Gem, Gift, Truck, Sparkles, ShoppingBag, Palette, Package, Star } from 'lucide-react';
 import ProductCard from '../components/ProductCard';
 import Loader from '../components/Loader';
 import { productsAPI } from '../services/api';
@@ -122,7 +122,7 @@ const Store: React.FC = () => {
                   : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
-              🛍️ Productos en Stock
+              <ShoppingBag className="inline w-5 h-5 mr-2 -mt-1" /> Productos en Stock
             </button>
             <button
               onClick={() => setActiveTab('custom')}
@@ -132,7 +132,7 @@ const Store: React.FC = () => {
                   : 'text-gray-600 hover:bg-gray-100'
               }`}
             >
-              🎨 Figuras Personalizadas
+              <Palette className="inline w-5 h-5 mr-2 -mt-1" /> Figuras Personalizadas
             </button>
           </div>
         </motion.div>
@@ -147,8 +147,11 @@ const Store: React.FC = () => {
           >
             {/* Header y descripción */}
             <div className="bg-gradient-to-r from-primary-brown/10 via-primary-gold/10 to-primary-rose/10 rounded-xl p-8 text-center">
+              <div className="flex justify-center mb-2">
+                <Gem className="w-8 h-8 text-primary-gold" />
+              </div>
               <h2 className="text-3xl font-bold text-primary-dark mb-3">
-                💎 Colección Disponible
+                Colección Disponible
               </h2>
               <p className="text-gray-600 text-lg">
                 Figuras de porcelana listas para enviar. Piezas únicas hechas a mano con todo el detalle y cariño.
@@ -178,10 +181,10 @@ const Store: React.FC = () => {
                     onChange={(e) => setPriceFilter(e.target.value as any)}
                     className="w-full pl-10 pr-4 py-3 rounded-lg border-2 border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary-brown focus:border-transparent transition-all appearance-none cursor-pointer bg-white"
                   >
-                    <option value="all">💰 Todos los precios</option>
-                    <option value="low">💵 Menos de €50</option>
-                    <option value="medium">💶 €50 - €100</option>
-                    <option value="high">💷 Más de €100</option>
+                    <option value="all">Todos los precios</option>
+                    <option value="low">Menos de €50</option>
+                    <option value="medium">€50 - €100</option>
+                    <option value="high">Más de €100</option>
                   </select>
                 </div>
               </div>
@@ -189,19 +192,21 @@ const Store: React.FC = () => {
 
             {/* Results Count con estilo */}
             <div className="flex items-center justify-between">
-              <p className="text-gray-600 font-medium">
-                📦 Mostrando <span className="text-primary-brown font-bold">{filteredProducts.length + stockItems.length}</span> productos en total
+              <p className="text-gray-600 font-medium flex items-center gap-2">
+                <Package className="w-5 h-5 inline-block text-primary-brown" />
+                Mostrando <span className="text-primary-brown font-bold">{filteredProducts.length + stockItems.length}</span> productos en total
               </p>
-              <p className="text-sm text-gray-500">
-                ✨ Envío gratuito en pedidos superiores a 50€
+              <p className="text-sm text-gray-500 flex items-center gap-2">
+                <Star className="w-4 h-4 text-primary-gold" />
+                Envío gratuito en pedidos superiores a 50€
               </p>
             </div>
 
             {/* Productos de Stock (siempre visibles) */}
             <div className="space-y-6">
               <div className="bg-gradient-to-r from-primary-rose/20 to-primary-gold/20 rounded-xl p-6 text-center">
-                <h3 className="text-2xl font-bold text-primary-dark mb-2">
-                  ✨ Colección en Stock
+                <h3 className="text-2xl font-bold text-primary-dark mb-2 flex items-center justify-center gap-2">
+                  <Package className="w-6 h-6 text-primary-brown" /> Colección en Stock
                 </h3>
                 <p className="text-gray-600">
                   Brujas y duendes de porcelana hechos a mano. Contacta para realizar tu pedido.
@@ -255,8 +260,8 @@ const Store: React.FC = () => {
             {filteredProducts.length > 0 && (
               <div className="space-y-6 mt-12">
                 <div className="bg-gradient-to-r from-primary-gold/20 to-primary-brown/20 rounded-xl p-6 text-center">
-                  <h3 className="text-2xl font-bold text-primary-dark mb-2">
-                    🛍️ Más Productos Disponibles
+                  <h3 className="text-2xl font-bold text-primary-dark mb-2 flex items-center justify-center gap-2">
+                    <ShoppingBag className="w-6 h-6 text-primary-brown" /> Más Productos Disponibles
                   </h3>
                   <p className="text-gray-600">
                     Productos adicionales que puedes comprar directamente desde nuestra tienda.
@@ -292,17 +297,17 @@ const Store: React.FC = () => {
               >
                 <div className="grid md:grid-cols-3 gap-6 text-center">
                   <div>
-                    <div className="text-3xl mb-2">🚚</div>
+                    <Truck className="w-8 h-8 mx-auto mb-2 text-primary-brown" />
                     <h4 className="font-semibold text-gray-800 mb-1">Envío Rápido</h4>
                     <p className="text-sm text-gray-600">Entrega en 3-5 días laborables</p>
                   </div>
                   <div>
-                    <div className="text-3xl mb-2">🎁</div>
+                    <Gift className="w-8 h-8 mx-auto mb-2 text-primary-gold" />
                     <h4 className="font-semibold text-gray-800 mb-1">Embalaje Premium</h4>
                     <p className="text-sm text-gray-600">Perfecto para regalo</p>
                   </div>
                   <div>
-                    <div className="text-3xl mb-2">✨</div>
+                    <Sparkles className="w-8 h-8 mx-auto mb-2 text-primary-rose" />
                     <h4 className="font-semibold text-gray-800 mb-1">100% Artesanal</h4>
                     <p className="text-sm text-gray-600">Hecho a mano en España</p>
                   </div>
